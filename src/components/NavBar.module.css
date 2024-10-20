@@ -1,0 +1,39 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    padding: 10px 20px;
+    background-color: rgb(31, 89, 165);
+    position: relative;
+}
+
+.left {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.right {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo img {
+    width: 180px;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    display: inline-block;
+    border-radius: 50%;
+}

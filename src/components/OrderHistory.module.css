@@ -1,0 +1,33 @@
+.orderHistory {
+    padding: 50px;
+    text-align: center;
+}
+
+.orderHistory ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.orderHistory li {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.orderItem {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: left; 
+}
+
+.orderItem strong {
+    font-size: 18px;
+}
+
+
+.orderItem ul li {
+    margin-left: 20px; 
+}
