@@ -4,7 +4,7 @@ import styles from './ProductList.module.css';
 
 interface ProductListProps {
     products: ProductType[];
-    addToCart: (product: { id: number; name: string; price: number }) => void;
+    addToCart: (product: ProductType) => void; // Use ProductType instead of a simplified object
 }
 
 const ProductList: React.FC<ProductListProps> = ({ products, addToCart }) => {
@@ -42,7 +42,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, addToCart }) => {
                         <button
                             onClick={() => {
                                 if (product.stock > 0) {
-                                    addToCart({ id: product.id, name: product.name, price: product.price });
+                                    addToCart(product); // Pass the whole product
                                 } else {
                                     alert('Product out of stock');
                                 }

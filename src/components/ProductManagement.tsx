@@ -11,7 +11,7 @@ interface ProductManagementProps {
 
 const ProductManagement: React.FC<ProductManagementProps> = ({ products, onDiscontinue, onRestock, onAddProduct }) => {
     const [newProduct, setNewProduct] = useState({ name: '', price: '' });
-    
+
     const [restockAmounts, setRestockAmounts] = useState<{ [key: number]: number }>({});
 
     const addProduct = () => {
@@ -26,69 +26,51 @@ const ProductManagement: React.FC<ProductManagementProps> = ({ products, onDisco
             price: Number(newProduct.price),
             stock: 5,
             image: '/images/default.jpg',
-            discontinued: false 
+            discontinued: false
         };
 
         onAddProduct(product);
-        setNewProduct({ name: '', price: '' }); 
+        setNewProduct({ name: '', price: '' });
     };
 
-    const handleRestockChange = (id: number, value: number) => {
-        setRestockAmounts(prev => ({ ...prev, [id]: value }));
+    const handleRestockChange = (id: number, amount: number) => {
+        setRestockAmounts(prevAmounts => ({ ...prevAmounts, [id]: amount }));
     };
 
     return (
-        <div className={styles.productManagement}>
+        <div className={styles.management}>
             <h2>Product Management</h2>
 
-            <label>
-                Product Name:
+            <div>
+                <h3>Add New Product</h3>
                 <input
                     type="text"
-                    placeholder="Enter product name"
+                    placeholder="Product Name"
                     value={newProduct.name}
                     onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
                 />
-            </label>
-
-            <label>
-                Price ($):
                 <input
-                    type="number"
-                    placeholder="Enter product price"
+                    type="text"
+                    placeholder="Price"
                     value={newProduct.price}
                     onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
                 />
-            </label>
+                <button onClick={addProduct}>Add Product</button>
+            </div>
 
-            <button onClick={addProduct}>Add Product</button>
-
-            <h3>Manage Products</h3>
+            <h3>Product List</h3>
             <ul>
                 {products.map(product => (
-                    <li key={product.id} className={styles.productItem}>
-                        <span>{product.name} - ${product.price} (Stock: {product.stock})</span>
-                        <div className={styles.restockContainer}>
-                            <input
-                                type="number"
-                                placeholder="Restock"
-                                min="1" 
-                                value={restockAmounts[product.id] || 0} 
-                                onChange={(e) => handleRestockChange(product.id, Number(e.target.value))}
-                                className={styles.restockInput}
-                            />
-                            <button onClick={() => {
-                                if (restockAmounts[product.id] > 0) {
-                                    onRestock(product.id, restockAmounts[product.id]);
-                                    setRestockAmounts(prev => ({ ...prev, [product.id]: 0 }));
-                                } else {
-                                    alert('Please enter a valid restock amount');
-                                }
-                            }} className={styles.restockButton}>
-                                Restock
-                            </button>
-                            <button onClick={() => onDiscontinue(product.id)} className={styles.discontinueButton}>Discontinue</button>
-                        </div>
+                    <li key={product.id} className={styles.managementItem}>
+                        {product.name} - ${product.price.toFixed(2)} <br />
+                        <button onClick={() => onDiscontinue(product.id)}>Discontinue</button>
+                        <input
+                            type="number"
+                            value={restockAmounts[product.id] || ''}
+                            placeholder="Restock amount"
+                            onChange={(e) => handleRestockChange(product.id, parseInt(e.target.value, 10))}
+                        />
+                        <button onClick={() => onRestock(product.id, restockAmounts[product.id] || 0)}>Restock</button>
                     </li>
                 ))}
             </ul>

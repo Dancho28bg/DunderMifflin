@@ -1,10 +1,10 @@
 ﻿import React from 'react';
-import styles from './ProductList.module.css'; 
-import { ProductType } from './ProductTypes'; 
+import styles from './ProductList.module.css';
+import { ProductType } from './ProductTypes';
 
 interface ProductProps {
-    product: ProductType; 
-    addToCart: (product: ProductType) => void; 
+    product: ProductType;
+    addToCart: (product: ProductType) => void;
 }
 
 const Product: React.FC<ProductProps> = ({ product, addToCart }) => {

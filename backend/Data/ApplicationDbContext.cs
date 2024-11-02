@@ -13,30 +13,29 @@ namespace backend.Data
         public DbSet<OrderEntry> OrderEntries { get; set; }
         public DbSet<PaperProperty> PaperProperties { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+       protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{	
+    		base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<OrderEntry>()
-                .HasOne<Order>(o => o.Order)
-                .WithMany(e => e.OrderEntries)
-                .HasForeignKey(o => o.OrderId);
+    		// Ensure the relationship configurations are correct.
+    		modelBuilder.Entity<OrderEntry>()
+        		.HasOne(o => o.Order) // This could cause issues if 'Order' is null
+        		.WithMany(e => e.OrderEntries)
+        		.HasForeignKey(o => o.OrderId);
 
-            modelBuilder.Entity<OrderEntry>()
-                .HasOne<Paper>(p => p.Paper)
-                .WithMany(p => p.OrderEntries)
-                .HasForeignKey(p => p.PaperId);
+    		modelBuilder.Entity<OrderEntry>()
+        		.HasOne(p => p.Paper) // This could cause issues if 'Paper' is null
+        		.WithMany(p => p.OrderEntries)
+        		.HasForeignKey(p => p.PaperId);
 
-            modelBuilder.Entity<PaperProperty>()
-                .HasKey(pp => new { pp.PaperId, pp.Id });
+    		modelBuilder.Entity<PaperProperty>()
+        		.HasKey(pp => new { pp.PaperId, pp.Id });
 
-            modelBuilder.Entity<PaperProperty>()
-                .HasOne<Paper>(pp => pp.Paper)
-                .WithMany(p => p.PaperProperties)
-                .HasForeignKey(pp => pp.PaperId);
-            
-            modelBuilder.Entity<Order>()
-                .Property(o => o.Status)
-                .HasDefaultValue("received");
+    		modelBuilder.Entity<PaperProperty>()
+        		.HasOne(pp => pp.Paper) // This could cause issues if 'Paper' is null
+        		.WithMany(p => p.PaperProperties)
+        		.HasForeignKey(pp => pp.PaperId);
+		}
+
     }
 }

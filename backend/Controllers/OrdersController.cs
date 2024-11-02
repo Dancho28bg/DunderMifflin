@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
-using DTOs;
+using backend.DTOs;
 
-namespace YourNamespace.Controllers 
+namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -20,10 +20,14 @@ namespace YourNamespace.Controllers
             _context = context;
         }
 
-        // POST: api/orders
         [HttpPost]
         public async Task<ActionResult<Order>> CreateOrder(OrderDto orderDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var customer = await _context.Customers.FindAsync(orderDto.CustomerId);
             if (customer == null)
             {
@@ -46,13 +50,12 @@ namespace YourNamespace.Controllers
             return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
 
-        // GET: api/orders/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
         {
             var order = await _context.Orders
                 .Include(o => o.OrderEntries)
-                .ThenInclude(oe => oe.Paper) 
+                .ThenInclude(oe => oe.Paper)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
@@ -62,7 +65,7 @@ namespace YourNamespace.Controllers
 
             return order;
         }
-        
+
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] string status)
         {
@@ -72,7 +75,6 @@ namespace YourNamespace.Controllers
                 return NotFound();
             }
 
-            // Validate status
             if (status != "received" && status != "sent" && status != "delivered")
             {
                 return BadRequest("Invalid status.");

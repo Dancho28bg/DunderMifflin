@@ -9,7 +9,7 @@ interface CartItem {
 
 interface Order {
     id: number;
-    items: CartItem[];
+    items: CartItem[]; // This should match your data structure in App.tsx
     date: Date;
     status: string;
 }

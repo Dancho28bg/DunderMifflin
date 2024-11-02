@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
 
-namespace backend.Controllers 
+namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

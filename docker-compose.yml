@@ -1,14 +1,15 @@
-﻿version: '3.8'
-
-services:
+﻿services:
   db:
     image: postgres:13
+    container_name: dundermifflin-db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin1
       POSTGRES_DB: DundlinMuffin
     ports:
-      - "1112:5432"
+      - "1534:5432"
     volumes:
-      - ./dbdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
+volumes:
+  pgdata:
